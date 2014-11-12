@@ -1,0 +1,11 @@
+Um ein PDF mit dem Glossal müssen folgende Schritte durchgeführt werden:
+
+1) F6 in TexStudio (complie LaTeX)
+
+2) terminal im ordner SMEP_DA öffnen
+
+3) makeindex diplomarbeit.glo -s diplomarbeit.ist -t diplomarbeit.glg
+
+4) makeglossaries diplomarbeit.glo
+
+5) F1 in TexStudio
