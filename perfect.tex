@@ -29,6 +29,17 @@ right  = 2.00cm]{geometry}
 
 \newglossaryentry{glossaryVerweis} {name=abkuerzung, description={Langer Name}}
 
+\newcommand{\executeiffilenewer}[3]{%
+\ifnum\pdfstrcmp{\pdffilemoddate{#1}}%
+{\pdffilemoddate{#2}}>0%
+{\immediate\write18{#3}}\fi%
+}
+\newcommand{\includesvg}[2]{%
+\executeiffilenewer{#1.svg}{#1.pdf}%
+{rsvg-convert -f pdf #1.svg > #1.pdf}%
+\includegraphics[width=1\textwidth]{#1.pdf}}%
+
+
 
 \begin{document}
 \begin{titlepage}
@@ -116,6 +127,20 @@ red \\
 \end{figure}
 \listoffigures
 \newpage
+
+\subsection{Including svg using rsvg-convert}
+If you want to insert svg you will need to add this to the PdfLaTex-Command:\\
+\texttt{\color{red} --shell-escape --enable-write18 \%.tex }
+\begin{figure}[here!]
+\centering
+\includesvg{images/uml}
+\caption{svg}
+\end{figure}
+\FloatBarrier
+
+\listoffigures
+\newpage
+
 \section{References and referencing}
 \subsection{Easy Bibliography}
 \begin{thebibliography}{56}
@@ -138,7 +163,14 @@ This source can be cited using:
  \cite{name}
 
 \subsection{More complicated/'better' Bibliography}
-\todo{Vennesa? :)}
+''I'm a cite from a book'' \cite{bk_key}  \\\\
+Some content-related cite \cite{up_key} \\\\
+\textbf{\color{red}Entries in your bib-file you don't relate with a \textbackslash{}cite aren't listed!}
+\newline
+\newline
+\bibliography{sources} 
+\bibliographystyle{alpha}
+\newpage
 
 \subsection{Referencing}
 Referencing in Latex is quite easy, all that has to be done is:
