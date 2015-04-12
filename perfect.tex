@@ -61,15 +61,34 @@ right  = 2.00cm]{geometry}
 
 \newglossaryentry{glossaryVerweis} {name=abkuerzung, description={Langer Name}}
 
+\newcommand{\command}[1]{{\texttt{\color{blue} #1\\}}}
+\newcommand{\error}[1]{{\texttt{\color{red} #1\\}}}
+\newcommand{\comment}[1]{{\texttt{\color{OliveGreen} #1\\}}}
+% UseCase
+% \insertpicture{mik.png}{Some picture}{\cite{bk_key}}{itm:pic1}{0.5}
+\newcommand{\insertpicture}[5]{{
+	\begin{figure}[!htb]
+		\centering\includegraphics[width=#5\textwidth]{#1}
+		\caption[#2 #3]{#2}
+		\label{#4}
+	\end{figure}
+	\FloatBarrier
+}}
+
 \newcommand{\executeiffilenewer}[3]{%
-\ifnum\pdfstrcmp{\pdffilemoddate{#1}}%
-{\pdffilemoddate{#2}}>0%
-{\immediate\write18{#3}}\fi%
+	\ifnum\pdfstrcmp{\pdffilemoddate{#1}}%
+	{\pdffilemoddate{#2}}>0%
+	{\immediate\write18{#3}}\fi%
 }
-\newcommand{\includesvg}[2]{%
-\executeiffilenewer{#1.svg}{#1.pdf}%
-{rsvg-convert -f pdf #1.svg > #1.pdf}%
-\includegraphics[width=1\textwidth]{#1.pdf}}%
+
+\newcommand{\generatesvg}[1]{%
+	\executeiffilenewer{#1.svg}{#1.pdf}%
+	{rsvg-convert -f pdf #1.svg > #1.pdf}
+}%
+
+\newcommand{\insertsvg}[5]{
+\generatesvg{#1}
+\insertpicture{#1.pdf}{#2}{#3}{#4}{#5}}
 
 
 
@@ -151,26 +170,39 @@ red \\
 \color{black} 
 \newpage
 \section{Graphics}
+\listoffigures
 \subsection{Including graphics using figures}
+Normal way: \\
 \begin{figure}[here!]
 \centering
-\includegraphics[width=0.6\textwidth]{images/eai2.png}
+\includegraphics[width=0.4\textwidth]{images/eai2.png}
 \caption{caption1}
+\label{itm:eai}
 \end{figure}
-\listoffigures
+
+With a shorthand:\\
+\insertpicture{images/eai2.png}{caption1}{\cite{example}}{itm:eai}{0.4}
 \newpage
+<<<<<<< HEAD
 it can be rotatet using the angle=90 code in the [] brackets.
+=======
+
+
+
+>>>>>>> origin/master
 \subsection{Including svg using rsvg-convert}
 If you want to insert svg you will need to add this to the PdfLaTex-Command:\\
-\texttt{\color{red} --shell-escape --enable-write18 \%.tex }
-\begin{figure}[here!]
-\centering
-\includesvg{images/uml}
-\caption{svg}
-\end{figure}
-\FloatBarrier
-
-\listoffigures
+\command{--shell-escape --enable-write18 \%.tex }\\
+You will also need to install rsvg-convert, install on Linux XUbuntu:\\
+\command{sudo apt-get imstall rsvg-convert}
+\error{(don't know if this is going to work on windows)}
+\insertsvg{images/uml}{UML Diagram}{self made}{itm:svguml}{1}
+%\begin{figure}[here!]
+%\centering
+%\includesvg{images/uml}{1}
+%\caption{svg}
+%\end{figure}
+%\FloatBarrier
 \newpage
 
 \section{References and referencing}
@@ -321,10 +353,46 @@ Please note: a default table for the working time can be found in the other docu
 
 \newpage
 \section{How to include Code}
+\subsection{Simple with own written commands}
+For some exercises you will need to input some commands or error messages (maybe for your protocol for a borko-exercise) or comments, for this I have written some shorthands formatting the code:\\\\
+\command{sudo apt-get install *latex*}
+\error{A BorkoException was cause because Borko runs your application ;) }
+\comment{A solutuion for this problem does not exist}
+\begin{lstlisting}
+\command{sudo apt-get install *latex*}
+\error{A BorkoException was cause because Borko runs your application ;) }
+\comment{A solutuion for this problem does not exist}
+\end{lstlisting}
 
 \newpage
 \section{Important Things, Bugs, Useful Hits ...}
 \subsection{Float Barriers}
+Things like tables, pictures and also paragraphs sometimes jump on a random position, to avoid this use FloatBarriers. It is hard to show this effect, but be so kind a trust me just use it so that this don't happen to you.\\\\
+Just input \textbackslash{}FloatBarrier after a picture or a table.
+
+\newpage
+\subsection{How to write own commands in LaTex}
+In some cases, because also the perfect.tex also can't provide anything it would make sense to write your own commands, for things you do very often in your documents (including pictures) to make them shorter or to have some special commands (including svg files).\\\\
+\begin{lstlisting}
+\newcommand{cmd}[args][default]{def}
+\end{lstlisting}
+\begin{description}
+\item[cmd] The name of the command
+\item[args] Number of arguments, is optional\\to reference to the parameters just write \#Number
+\item[default] Default values for the arguments, is optional
+\item[def] The body of the command, what it should really do\\
+\end{description}
+\textbf{Example:}
+\begin{lstlisting}
+\newcommand{\insertpicture}[5]{
+	\begin{figure}[!htb]
+		\centering\includegraphics[width=#5\textwidth]{#1}
+		\caption[#2 #3]{#2}
+		\label{#4}
+	\end{figure}
+	\FloatBarrier
+}
+\end{lstlisting}
 
 
 
