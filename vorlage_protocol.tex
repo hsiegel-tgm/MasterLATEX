@@ -23,7 +23,37 @@ bottom = 2.00cm,
 left   = 2.50cm,
 right  = 2.00cm]{geometry}
 \setcounter{secnumdepth}{4}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
 
+\newcommand{\executeiffilenewer}[3]{%
+\ifnum\pdfstrcmp{\pdffilemoddate{#1}}%
+{\pdffilemoddate{#2}}>0%
+{\immediate\write18{#3}}\fi%
+}
+\newcommand{\includesvg}[1]{%
+\executeiffilenewer{#1.svg}{#1.pdf}%
+{inkscape -z -D --file=#1.pdf --export-pdf=#1.pdf --export-latex}%
+\input{#1.pdf_tex}%
+}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
 
 \makeglossaries
 
@@ -36,13 +66,15 @@ right  = 2.00cm]{geometry}
 % Oberer Teil der Titelseite:
 \includegraphics[width=0.5\textwidth]{images/logo}\\[1cm]    
 
-\textsc{\LARGE Technologisches Gewerbe Museum}\\[1.5cm]
+\LARGE TGM - HTBLuVA Wien XX \\ IT Department  \\[1.5cm]
 
 % Title
-\rule{12cm}{1mm}
-{ \huge \bfseries  \\\large FACH\\ \huge Aufgaben-Titel \\[0.4cm] }
+\rule{1.0\textwidth}{1mm}
+{ \huge \bfseries \\[0.4cm]  \huge Title \\ \LARGE Subtitle \\[0.4cm] }
 
-\rule{12cm}{1mm}
+\rule{1.0\textwidth}{1mm}
+
+
 
 % Author and supervisor
 \noindent 

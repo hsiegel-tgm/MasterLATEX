@@ -1,4 +1,4 @@
-Um ein PDF mit dem Glossal müssen folgende Schritte durchgeführt werden:
+﻿Um ein PDF mit dem Glossal müssen folgende Schritte durchgeführt werden:
 
 1) F6 in TexStudio (complie LaTeX)
 
@@ -9,3 +9,15 @@ Um ein PDF mit dem Glossal müssen folgende Schritte durchgeführt werden:
 4) makeglossaries diplomarbeit.glo
 
 5) F1 in TexStudio
+
+
+
+
+
+
+
+
+
+\begin{verbatim}
+asdf ... blablabla "§$%&/(/&%$§$%&/
+\end{verbatim}

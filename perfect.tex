@@ -11,6 +11,7 @@
 \usepackage[usenames,dvipsnames]{color}
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage{listings}
+\usepackage{lastpage}
 \usepackage{fixltx2e}
 \usepackage{scrpage2}
 \usepackage{lastpage}
@@ -23,6 +24,37 @@ bottom = 2.00cm,
 left   = 2.50cm,
 right  = 2.00cm]{geometry}
 \setcounter{secnumdepth}{4}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\newcommand{\executeiffilenewer}[3]{%
+\ifnum\pdfstrcmp{\pdffilemoddate{#1}}%
+{\pdffilemoddate{#2}}>0%
+{\immediate\write18{#3}}\fi%
+}
+\newcommand{\includesvg}[1]{%
+\executeiffilenewer{#1.svg}{#1.pdf}%
+{inkscape -z -D --file=#1.pdf --export-pdf=#1.pdf --export-latex}%
+\input{#1.pdf_tex}%
+}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
 
 
 \makeglossaries
@@ -127,7 +159,7 @@ red \\
 \end{figure}
 \listoffigures
 \newpage
-
+it can be rotatet using the angle=90 code in the [] brackets.
 \subsection{Including svg using rsvg-convert}
 If you want to insert svg you will need to add this to the PdfLaTex-Command:\\
 \texttt{\color{red} --shell-escape --enable-write18 \%.tex }
