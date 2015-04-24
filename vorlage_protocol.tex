@@ -12,10 +12,8 @@
 \usepackage[colorinlistoftodos]{todonotes}
 \usepackage{listings}
 \usepackage{fixltx2e}
-\usepackage{scrpage2}
 \usepackage{lastpage}
-\clearscrheadfoot
-\pagestyle{scrheadings}
+\usepackage{fancyhdr}
 \usepackage{glossaries}
 \usepackage[
 top    = 2.75cm,
@@ -54,6 +52,10 @@ right  = 2.00cm]{geometry}
   breakatwhitespace=true
   tabsize=3
 }
+
+
+
+
 
 \makeglossaries
 
@@ -99,11 +101,22 @@ Nachname2 \textsc{Vorname2}
 
 
 %HEADER AND FOOTER
-\pagenumbering{arabic}
-\ohead{\headmark}
-\automark{section}
-\ifoot{© Authors}
-\ofoot{\pagemark ~of \pageref{LastPage}}
+
+% header
+\pagestyle{fancy}
+\fancyhead[L]{\today}
+\fancyhead[R]{Topic}
+
+%footer
+\fancyfoot[L]{Authors}
+\fancyfoot[C]{5AHIT}
+\fancyfoot[R]{\thepage ~of \pageref{LastPage}}
+
+%\pagenumbering{arabic}
+%\ohead{\headmark}
+%\automark{section}
+%\ifoot{© Authors}
+%\ofoot{\pagemark ~of \pageref{LastPage}}
 
 \newpage
 
