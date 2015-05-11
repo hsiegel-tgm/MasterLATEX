@@ -26,32 +26,46 @@ right  = 2.00cm]{geometry}
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \newcommand{\executeiffilenewer}[3]{%
-\ifnum\pdfstrcmp{\pdffilemoddate{#1}}%
-{\pdffilemoddate{#2}}>0%
-{\immediate\write18{#3}}\fi%
+	\ifnum\pdfstrcmp{\pdffilemoddate{#1}}%
+	{\pdffilemoddate{#2}}>0%
+	{\immediate\write18{#3}}\fi%
 }
 \newcommand{\includesvg}[1]{%
-\executeiffilenewer{#1.svg}{#1.pdf}%
-{inkscape -z -D --file=#1.pdf --export-pdf=#1.pdf --export-latex}%
-\input{#1.pdf_tex}%
+	\executeiffilenewer{#1.svg}{#1.pdf}%
+	{inkscape -z -D --file=#1.pdf --export-pdf=#1.pdf --export-latex}%
+	\input{#1.pdf_tex}%
 }
 
-\lstset{frame=tb,
-  language=Java,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\small\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  breaklines=true,
-  breakatwhitespace=true
-  tabsize=3
+% \insertpicture{mik.png}{Some picture}{\cite{bk_key}}{itm:pic1}{0.5}
+\newcommand{\insertpicture}[5]{{
+		\begin{figure}[!htb]
+			\centering\includegraphics[width=#5\textwidth]{#1}
+			\caption[#2 #3]{#2}
+			\label{#4}
+		\end{figure}
+		\FloatBarrier
+	}}
+
+%lslisting
+\lstdefinestyle{customjava}{
+	language=Java,
+	frame=tlrb,
+	aboveskip=3mm,
+	belowskip=6mm,
+	showstringspaces=false,
+	columns=flexible,
+	basicstyle={\small\ttfamily},
+	numbers=none,
+	numberstyle=\tiny\color{gray},
+	keywordstyle=\color{mauve},
+	commentstyle=\color{dkgreen},
+	stringstyle=\color{blue},
+	breaklines=true,
+	breakatwhitespace=true
+	tabsize=3
 }
+
+\lstset{escapechar=@,style=customjava}
 
 
 
@@ -149,6 +163,8 @@ Total & \begin{tabular}[c]{c}Coworker1\\ Coworker2\end{tabular} & \begin{tabular
 \listoftables
 \listoffigures
 \printglossaries
+\bibliography{sources} 
+\bibliographystyle{alpha}
 \subsection{Easy Bibliography}
 \begin{thebibliography}{56}
 
